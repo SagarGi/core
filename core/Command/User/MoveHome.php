@@ -61,7 +61,7 @@ class MoveHome extends Command {
 
 		$storage = Filesystem::getStorage($userId);
 		if ($storage->instanceOfStorage(ObjectStoreStorage::class)) {
-			$output->writeln('<error>This command is not supported on an object storage</error>');
+			$output->writeln('<error>This command is not supported on an S3 primary object storage</error>');
 			return 1;
 		}
 

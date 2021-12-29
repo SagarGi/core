@@ -76,7 +76,7 @@ class HomeListDirsTest extends TestCase {
 		$this->assertStringContainsString($homePath, $output);
 
 		if ($objectStorageUsed) {
-			$this->assertStringContainsString('We detected that the instance is running on a primary object storage, home directories might not be accurate', $output);
+			$this->assertStringContainsString('We detected that the instance is running on a S3 primary object storage, home directories might not be accurate', $output);
 			$this->restoreService('AllConfig');
 			$this->restoreService('AppManager');
 		}

@@ -130,7 +130,7 @@ EOS;
 		$this->assertStringContainsString($expectedOutput, $output);
 
 		if ($objectStorageUsed) {
-			$this->assertStringContainsString('We detected that the instance is running on a primary object storage, user directories count might not be accurate', $output);
+			$this->assertStringContainsString('We detected that the instance is running on a S3 primary object storage, user directories count might not be accurate', $output);
 			$this->restoreService('AllConfig');
 			$this->restoreService('AppManager');
 		}
