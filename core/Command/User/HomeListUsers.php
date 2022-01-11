@@ -70,7 +70,7 @@ class HomeListUsers extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if (Filesystem::isPrimaryObjectStorageEnabled() === true) {
-			$output->writeln('<info>We detected that the instance is running on a primary object storage, users might not be accurate</info>');
+			$output->writeln('<info>We detected that the instance is running on a S3 primary object storage, users might not be accurate</info>');
 		}
 
 		$path = $input->getArgument('path');

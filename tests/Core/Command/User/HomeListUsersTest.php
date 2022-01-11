@@ -97,9 +97,13 @@ class HomeListUsersTest extends TestCase {
 
 		if ($objectStorageUsed) {
 			$this->assertStringContainsString('We detected that the instance is running on a S3 primary object storage, users might not be accurate', $output);
-			$this->restoreService('AllConfig');
-			$this->restoreService('AppManager');
 		}
+	}
+
+	protected function tearDown(): void {
+		$this->restoreService('AllConfig');
+		$this->restoreService('AppManager');
+		parent::tearDown();
 	}
 
 	public function testCommandInputAll() {
