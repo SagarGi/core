@@ -2975,6 +2975,7 @@ trait WebDav {
 	 *
 	 * @return void
 	 * @throws Exception
+	 * @throws GuzzleException
 	 */
 	public function theMtimeOfTheFileShouldBe(
 		string $user,
@@ -2993,7 +2994,8 @@ trait WebDav {
 				$password,
 				$baseUrl,
 				$resource,
-				$this->getStepLineRef()
+				$this->getStepLineRef(),
+				$this->getDavPathVersion()
 			)
 		);
 	}
@@ -3007,6 +3009,7 @@ trait WebDav {
 	 *
 	 * @return void
 	 * @throws Exception
+	 * @throws GuzzleException
 	 */
 	public function theMtimeOfTheFileShouldNotBe(
 		string $user,
@@ -3025,7 +3028,8 @@ trait WebDav {
 				$password,
 				$baseUrl,
 				$resource,
-				$this->getStepLineRef()
+				$this->getStepLineRef(),
+				$this->getDavPathVersion()
 			)
 		);
 	}

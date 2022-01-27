@@ -21,6 +21,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use GuzzleHttp\Exception\GuzzleException;
 use TestHelpers\HttpRequestHelper;
 use PHPUnit\Framework\Assert;
 use TestHelpers\WebDavHelper;
@@ -154,15 +155,16 @@ class ChecksumContext implements Context {
 	 * @param string $path
 	 *
 	 * @return void
+	 * @throws GuzzleException|JsonException
 	 */
 	public function userRequestsTheChecksumOfViaPropfind(string $user, string $path):void {
 		$user = $this->featureContext->getActualUsername($user);
 		$body = '<?xml version="1.0"?>
-<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
-  <d:prop>
-    <oc:checksums />
-  </d:prop>
-</d:propfind>';
+			<d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+			  <d:prop>
+				<oc:checksums />
+			  </d:prop>
+			</d:propfind>';
 		$url = $this->featureContext->getBaseUrl() . '/' .
 			WebDavHelper::getDavPath(
 				$user,
@@ -223,48 +225,56 @@ class ChecksumContext implements Context {
 			__METHOD__ . " parsed XML parsed0 does not have key value"
 		);
 		$parsed0Value = $parsed0['value'];
+		Assert::assertIsArray($parsed0Value, __METHOD__ . " parsed XML parsed0Value is not an array");
 		Assert::assertArrayHasKey(
 			1,
 			$parsed0Value,
 			__METHOD__ . " parsed XML parsed0Value does not have key 1"
 		);
 		$parsed0Value1 = $parsed0Value[1];
+		Assert::assertIsArray($parsed0Value1, __METHOD__ . " parsed XML parsed0Value1 is not an array");
 		Assert::assertArrayHasKey(
 			'value',
 			$parsed0Value1,
 			__METHOD__ . " parsed XML parsed0Value1 does not have key value after key 1"
 		);
 		$parsed0Value1Value = $parsed0Value1['value'];
+		Assert::assertIsArray($parsed0Value1Value, __METHOD__ . " parsed XML parsed0Value1Value is not an array");
 		Assert::assertArrayHasKey(
 			0,
 			$parsed0Value1Value,
 			__METHOD__ . " parsed XML parsed0Value1Value does not have key 0"
 		);
 		$parsed0Value1Value0 = $parsed0Value1Value[0];
+		Assert::assertIsArray($parsed0Value1Value0, __METHOD__ . " parsed XML parsed0Value1Value0 is not an array");
 		Assert::assertArrayHasKey(
 			'value',
 			$parsed0Value1Value0,
 			__METHOD__ . " parsed XML parsed0Value1Value0 does not have key value"
 		);
 		$parsed0Value1Value0Value = $parsed0Value1Value0['value'];
+		Assert::assertIsArray($parsed0Value1Value0Value, __METHOD__ . " parsed XML parsed0Value1Value0Value is not an array");
 		Assert::assertArrayHasKey(
 			0,
 			$parsed0Value1Value0Value,
 			__METHOD__ . " parsed XML parsed0Value1Value0Value does not have key 0"
 		);
 		$checksums = $parsed0Value1Value0Value[0];
+		Assert::assertIsArray($checksums, __METHOD__ . " parsed XML checksums is not an array");
 		Assert::assertArrayHasKey(
 			'value',
 			$checksums,
 			__METHOD__ . " parsed XML checksums does not have key value"
 		);
 		$checksumsValue = $checksums['value'];
+		Assert::assertIsArray($checksumsValue, __METHOD__ . " parsed XML checksumsValue is not an array");
 		Assert::assertArrayHasKey(
 			0,
 			$checksumsValue,
 			__METHOD__ . " parsed XML checksumsValue does not have key 0"
 		);
 		$checksumsValue0 = $checksumsValue[0];
+		Assert::assertIsArray($checksumsValue0, __METHOD__ . " parsed XML checksumsValue0 is not an array");
 		Assert::assertArrayHasKey(
 			'value',
 			$checksumsValue0,

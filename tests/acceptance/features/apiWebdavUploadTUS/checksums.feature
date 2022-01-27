@@ -20,6 +20,12 @@ Feature: checksums
       | old         | SHA1 8cb2237d0679ca88db6464eac60da96345513964 |
       | new         | SHA1 8cb2237d0679ca88db6464eac60da96345513964 |
 
+    @personalSpace
+    Examples:
+      | dav_version | checksum                                      |
+      | spaces      | MD5 827ccb0eea8a706c4c34a16891f84e7b          |
+      | spaces      | SHA1 8cb2237d0679ca88db6464eac60da96345513964 |
+
 
   Scenario Outline: Uploading a file with checksum should return the checksum in the propfind
     Given using <dav_version> DAV path
@@ -34,6 +40,10 @@ Feature: checksums
       | dav_version |
       | old         |
       | new         |
+    @personalSpace
+    Examples:
+      | dav_version |
+      | spaces      |
 
 
   Scenario Outline: Uploading a file with checksum should return the checksum in the download header
@@ -49,6 +59,11 @@ Feature: checksums
       | dav_version |
       | old         |
       | new         |
+
+    @personalSpace
+    Examples:
+      | dav_version |
+      | spaces      |
 
 
   Scenario Outline: Uploading a file with incorrect checksum should not work
@@ -67,6 +82,12 @@ Feature: checksums
       | old         | SHA1 8cb2237d0679ca88db6464eac60da96345513963 |
       | new         | SHA1 8cb2237d0679ca88db6464eac60da96345513963 |
 
+    @personalSpace
+    Examples:
+      | dav_version | incorrect_checksum                            |
+      | spaces      | MD5 827ccb0eea8a706c4c34a16891f84e7a          |
+      | spaces      | SHA1 8cb2237d0679ca88db6464eac60da96345513963 |
+
 
   Scenario Outline: Uploading a chunked file with correct checksum should work
     Given using <dav_version> DAV path
@@ -82,6 +103,11 @@ Feature: checksums
       | dav_version |
       | old         |
       | new         |
+
+    @personalSpace
+    Examples:
+      | dav_version |
+      | spaces      |
 
 
   Scenario Outline: Uploading a chunked file with correct checksum should return the checksum in the propfind
@@ -99,6 +125,11 @@ Feature: checksums
       | old         |
       | new         |
 
+    @personalSpace
+    Examples:
+      | dav_version |
+      | spaces      |
+
 
   Scenario Outline: Uploading a chunked file with checksum should return the checksum in the download header
     Given using <dav_version> DAV path
@@ -115,6 +146,11 @@ Feature: checksums
       | old         |
       | new         |
 
+    @personalSpace
+    Examples:
+      | dav_version |
+      | spaces      |
+
 
   Scenario Outline: Uploading second chunk of file with incorrect checksum should not work
     Given using <dav_version> DAV path
@@ -130,6 +166,11 @@ Feature: checksums
       | dav_version |
       | old         |
       | new         |
+
+    @personalSpace
+    Examples:
+      | dav_version |
+      | spaces      |
 
 
   Scenario Outline: Uploading a file with correct checksum and overwriting an existing file should return the checksum for new data in the propfind
@@ -153,6 +194,11 @@ Feature: checksums
       | old         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d |
       | new         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d |
 
+    @personalSpace
+    Examples:
+      | dav_version | overwriteChecksum                             |
+      | spaces      | MD5 5d41402abc4b2a76b9719d911017c592          |
+      | spaces      | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d |
 
   Scenario Outline: Uploading a file with correct checksum and overwriting an existing file with invalid checksum should not work
     Given using <dav_version> DAV path
@@ -174,8 +220,14 @@ Feature: checksums
       | old         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434a |
       | new         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434a |
 
+    @personalSpace
+    Examples:
+      | dav_version | overwriteInvalidChecksum                      |
+      | spaces      | MD5 5d41402abc4b2a76b9719d911017c593          |
+      | spaces      | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434a |
 
-Scenario Outline: Overwriting an existing file with new data and checksum should return the checksum of new data in the propfind
+
+  Scenario Outline: Overwriting an existing file with new data and checksum should return the checksum of new data in the propfind
     Given using <dav_version> DAV path
     And user "Alice" has created a new TUS resource on the WebDAV API with these headers:
       | Upload-Length   | 5                         |
@@ -195,6 +247,12 @@ Scenario Outline: Overwriting an existing file with new data and checksum should
       | new         | MD5 5d41402abc4b2a76b9719d911017c592          |
       | old         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d |
       | new         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d |
+
+    @personalSpace
+    Examples:
+      | dav_version | overwriteChecksum                             |
+      | spaces      | MD5 5d41402abc4b2a76b9719d911017c592          |
+      | spaces      | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d |
 
 
   Scenario Outline: Overwriting an existing file with new data and invalid checksum should not work
@@ -216,3 +274,9 @@ Scenario Outline: Overwriting an existing file with new data and checksum should
       | new         | MD5 5d41402abc4b2a76b9719d911017c593          |
       | old         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434a |
       | new         | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434a |
+
+    @personalSpace
+    Examples:
+      | dav_version | overwriteChecksum                             |
+      | spaces      | MD5 5d41402abc4b2a76b9719d911017c593          |
+      | spaces      | SHA1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434a |

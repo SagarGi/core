@@ -25,6 +25,7 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
+use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use DateTime;
@@ -113,6 +114,7 @@ class WebDavHelper {
 	 * @param int|null $davPathVersionToUse
 	 *
 	 * @return ResponseInterface
+	 * @throws GuzzleException
 	 */
 	public static function propfind(
 		?string $baseUrl,
@@ -671,16 +673,18 @@ class WebDavHelper {
 	 * @param string|null $baseUrl
 	 * @param string|null $resource
 	 * @param string|null $xRequestId
+	 * @param int|null $davPathVersionToUse
 	 *
 	 * @return string
-	 * @throws Exception
+	 * @throws GuzzleException
 	 */
 	public static function getMtimeOfResource(
 		?string $user,
 		?string $password,
 		?string $baseUrl,
 		?string $resource,
-		?string $xRequestId = ''
+		?string $xRequestId = '',
+		?int $davPathVersionToUse = 1
 	):string {
 		$response = self::propfind(
 			$baseUrl,
@@ -688,13 +692,25 @@ class WebDavHelper {
 			$password,
 			$resource,
 			["getlastmodified"],
-			$xRequestId
+			$xRequestId,
+			"0",
+			"files",
+			$davPathVersionToUse
 		);
 		$responseXmlObject = HttpRequestHelper::getResponseXml(
 			$response,
 			__METHOD__
 		);
 		$xmlpart = $responseXmlObject->xpath("//d:getlastmodified");
+		Assert::assertIsArray(
+			$xmlpart,
+			__METHOD__ . " last modified expression is not found in the XML"
+		);
+		Assert::assertArrayHasKey(
+			0,
+			$xmlpart,
+			__METHOD__ . " XML part does not have key 0"
+		);
 		$mtime = new DateTime($xmlpart[0]->__toString());
 		return $mtime->format('U');
 	}
